@@ -18,7 +18,14 @@ ROTATE="${ROTATE:-}"
 gitea() { curl -fsS -H "Authorization: token $GITEA_TOKEN" -H 'Content-Type: application/json' "$@"; }
 github() { curl -fsS -H "Authorization: Bearer $GITHUB_TOKEN" -H 'Accept: application/vnd.github+json' \
   -H 'X-GitHub-Api-Version: 2022-11-28' "$@"; }
-run() { if [[ -n "$DRY_RUN" ]]; then echo "  (dry run) $*"; else "$@"; fi; }
+run() {
+  if [[ -n "$DRY_RUN" ]]; then
+    local line="$*"
+    echo "  (dry run) ${line//"$GITHUB_MIRROR_TOKEN"/***}"   # never print the stored credential
+  else
+    "$@"
+  fi
+}
 
 github_user=$(github https://api.github.com/user | jq -r .login)
 
