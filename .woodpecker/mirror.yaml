@@ -1,0 +1,26 @@
+# Keeps every public repo in git.kjuulh.io/grund push-mirrored to github.com/grund-run.
+# Runs hourly (cron "mirror"), on demand, and whenever this repo changes.
+# A new repo in the org shows up on GitHub within the hour, or at once via a manual run.
+when:
+  - event: cron
+    cron: mirror
+  - event: manual
+  - event: push
+    branch: main
+
+labels:
+  platform: linux/amd64
+
+steps:
+  mirror:
+    image: alpine:3.22
+    environment:
+      GITEA_TOKEN:
+        from_secret: gitea_token            # git.kjuulh.io: read:organization + write:repository
+      GITHUB_TOKEN:
+        from_secret: github_admin_token     # fine-grained PAT on grund-run: Administration + Contents rw, Metadata r
+      GITHUB_MIRROR_TOKEN:
+        from_secret: github_mirror_token    # fine-grained PAT on grund-run: Contents rw, Metadata r (stored in Gitea)
+    commands:
+      - apk add --no-cache bash curl jq >/dev/null
+      - bash scripts/mirror.sh

@@ -26,7 +26,27 @@ Organisation-level files for **grund**.
   maintainer, because the next mirror push would overwrite them. Say so in
   each repo's README.
 
-## Running it
+## Automation
+
+`.woodpecker/mirror.yaml` runs the script on
+[ci.git.kjuulh.io](https://ci.git.kjuulh.io):
+
+- **When:** hourly (cron `mirror`), on a manual run, and on every push to this
+  repo. A new repo in the org reaches GitHub within the hour, or immediately
+  via "Run pipeline".
+- **Secrets it needs** (repo secrets, available to `cron`, `manual` and
+  `push` events only, never pull requests):
+
+  | Secret | What it is |
+  |---|---|
+  | `gitea_token` | git.kjuulh.io token with `read:organization` + `write:repository` |
+  | `github_admin_token` | fine-grained PAT on `grund-run`: Administration + Contents read/write, Metadata read (creates repos) |
+  | `github_mirror_token` | fine-grained PAT on `grund-run`: Contents read/write, Metadata read (stored in each Gitea push mirror) |
+
+  One PAT with Administration + Contents can serve as both GitHub secrets.
+  Two keeps the credential Gitea stores narrower.
+
+## Running it by hand
 
 ```sh
 export GITEA_TOKEN=...          # git.kjuulh.io token with write:repository (read org + manage push mirrors)

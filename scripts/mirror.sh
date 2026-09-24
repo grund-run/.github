@@ -73,7 +73,10 @@ while :; do
     body=$(jq -n --arg r "$remote" --arg u "$github_user" --arg p "$GITHUB_MIRROR_TOKEN" --arg i "$INTERVAL" \
       '{remote_address:$r, remote_username:$u, remote_password:$p, interval:$i, sync_on_commit:true}')
     run gitea -o /dev/null -X POST "$GITEA_URL/api/v1/repos/$GITEA_ORG/$name/push_mirrors" -d "$body"
-    run gitea -o /dev/null -X POST "$GITEA_URL/api/v1/repos/$GITEA_ORG/$name/push_mirrors-sync"
+    # Kick an immediate sync. Gitea answers 422 while a sync is already running
+    # (sync_on_commit may have started one), which is fine: don't abort the run.
+    run gitea -o /dev/null -X POST "$GITEA_URL/api/v1/repos/$GITEA_ORG/$name/push_mirrors-sync" \
+      || echo "note  $name: sync already in progress"
   done < <(jq -c '.[]' <<<"$repos")
 
   page=$((page + 1))
