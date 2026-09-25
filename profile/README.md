@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/grund-run/.github/main/brand/grund-mark-256.png" alt="The grund mark: a mint wolf head wearing a grey spiked muzzle" width="128" height="128">
+
 # grund
 
 **The boring production layer for your own servers.**
