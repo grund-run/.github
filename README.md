@@ -5,6 +5,7 @@ Organisation-level files for **grund**.
 | Path | What it is |
 |---|---|
 | `profile/README.md` | The org's front page on GitHub (`github.com/grund-run`) |
+| `brand/` | The grund logo: the master, the SVG mark, favicons, avatars and the social card, and which to use where ([brand/README.md](brand/README.md)) |
 | `scripts/mirror.sh` | Keeps every public repo in `git.kjuulh.io/grund` push-mirrored to `github.com/grund-run` |
 
 ## How mirroring works
