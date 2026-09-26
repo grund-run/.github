@@ -58,8 +58,10 @@ has around its edges.
 - **Clear space**: keep at least one eighth of the mark's width empty on
   every side. Next to the wordmark, the gap is about a quarter of the mark's
   height (0.6 rem at the site's header size).
-- Next to "grund", size the mark to about 1.4× the wordmark's cap height, so
-  the head matches the lowercase letters' visual weight.
+- Next to "grund", make the mark 1.4 to 1.7 times the wordmark's font size:
+  40 px beside 24 px text in grund.sh's header, 40 px beside 28 px in the
+  dashboard's sidebar, 36 px beside 26 px in insights. Smaller than that
+  and the head reads as a blob next to the letters.
 
 ## On light and on dark
 
